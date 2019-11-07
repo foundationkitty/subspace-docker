@@ -1,0 +1,26 @@
+version: "3"
+services:
+    mcraft:
+        image: itzg/minecraft-server:latest
+        container_name: mcraft
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+          EULA: "TRUE"
+          VERSION: 1.13.2
+          MEMORY: 3584M
+          TYPE: PAPER
+          JVM_XX_OPTS: -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled
+          JVM_OPTS: -Dusing.aikars.flags=mcflags.emc.gs
+        ports:
+          - 25565:25565
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_GAMES}/mcraft:/data"
+        restart: always
+        stdin_open: true
+        tty: true
+networks:
+  default:
+    external:
+      name: mcraft
