@@ -35,7 +35,7 @@ services:
           - "--providers.docker=true"
           - "--providers.docker.exposedbydefault=false"
           - "--api=true"
-          - "--log.loglevel=DEBUG"
+          - "--log.level=DEBUG"
           - "--accesslog=true"
           - "--accesslog.filePath=/etc/traefik/access.log"
           - "--accesslog.format=json"
