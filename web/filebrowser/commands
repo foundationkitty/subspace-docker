@@ -1,0 +1,7 @@
+/bin/bash -c "DATE=$(date +%m-%d-%y) && TIME=$(date) && echo copy $FILE $USERNAME $DESTINATION $TIME >> /logs/$DATE"
+
+/bin/bash -c "DATE=$(date +%m-%d-%y) && TIME=$(date) && echo delete $FILE $USERNAME $TIME >> /logs/$DATE"
+
+/bin/bash -c "DATE=$(date +%m-%d-%y) && TIME=$(date) && echo rename $FILE $USERNAME $DESTINATION $TIME >> /logs/$DATE"
+
+/bin/bash -c "DATE=$(date +%m-%d-%y) && TIME=$(date) && echo upload $FILE $USERNAME $TIME >> /logs/$DATE"
