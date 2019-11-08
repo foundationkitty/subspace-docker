@@ -45,6 +45,7 @@ services:
           - "--certificatesresolvers.le.acme.dnschallenge.provider=cloudflare"
           - "--certificatesresolvers.le.acme.email=${ACME_EMAIL}"
           - "--certificatesresolvers.le.acme.storage=/etc/traefik/acme.json"
+          - "--certificatesResolvers.sample.acme.dnsChallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
     oauth:
         image: thomseddon/traefik-forward-auth:latest
         container_name: oauth
