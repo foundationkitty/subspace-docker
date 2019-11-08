@@ -96,6 +96,116 @@ services:
           traefik.http.routers.portainer-secured.middlewares: "secureHeaders@file,googleAuth@file"
           traefik.http.services.portainer-secured.loadbalancer.server.port: "9000"
         restart: always
+    filebrowser:
+        image: foundationkitty/gameservers:alpine-bash
+        container_name: filebrowser
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_WEB}/filebrowser/filebrowser:/filebrowser"
+          - "${APPDATA_WEB}/filebrowser/logs:/logs"
+          - "${APPDATA}/:/srv"
+          - "${APPDATA_WEB}/filebrowser/.filebrowser.json:/.filebrowser.json"
+          - "${APPDATA_WEB}/filebrowser/database.db:/database.db"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.file.rule: "Host(`file.${DOMAIN}`)"
+          traefik.http.routers.file.entrypoints: "web"
+          traefik.http.routers.file.middlewares: "redirect@file"
+          traefik.http.routers.file-secured.rule: "Host(`file.${DOMAIN}`)"
+          traefik.http.routers.file-secured.entrypoints: "websecure"
+          traefik.http.routers.file-secured.tls: "true"
+          traefik.http.routers.file-secured.tls.options: "securetls@file"
+          traefik.http.routers.file-secured.tls.certresolver: "le"
+          traefik.http.routers.file-secured.middlewares: "secureHeaders@file,googleAuth@file"
+          traefik.http.services.file-secured.loadbalancer.server.port: "7000"
+        restart: always
+        command: /filebrowser
+    mariadb:
+        image: mariadb:latest
+        container_name: mariadb
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+          MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_WEB}/wordpress/mdb:/var/lib/mysql"
+        restart: always
+    wordpress:
+        image: wordpress:latest
+        container_name: wordpress
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+          WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD}"
+          WORDPRESS_DB_HOST: mariadb:3306
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_WEB}/wordpress:/var/www/html"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.wordpress.rule: "Host(`${DOMAIN}`)"
+          traefik.http.routers.wordpress.entrypoints: "web"
+          traefik.http.routers.wordpress.middlewares: "redirect@file"
+          traefik.http.routers.wordpress-secured.rule: "Host(`${DOMAIN}`)"
+          traefik.http.routers.wordpress-secured.entrypoints: "websecure"
+          traefik.http.routers.wordpress-secured.tls: "true"
+          traefik.http.routers.wordpress-secured.tls.options: "securetls@file"
+          traefik.http.routers.wordpress-secured.tls.certresolver: "le"
+          traefik.http.routers.wordpress-secured.middlewares: "secureHeaders@file,googleAuth@file"
+          traefik.http.services.wordpress-secured.loadbalancer.server.port: "80"
+        restart: always
+    netdata:
+        image: netdata/netdata:latest
+        container_name: netdata
+        cap_add:
+          - SYS_PTRACE
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /proc:/host/proc
+          - /sys:/host/sys
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.netdata.rule: "Host(`netdata.${DOMAIN}`)"
+          traefik.http.routers.netdata.entrypoints: "web"
+          traefik.http.routers.netdata.middlewares: "redirect@file"
+          traefik.http.routers.netdata-secured.rule: "Host(`netdata.${DOMAIN}`)"
+          traefik.http.routers.netdata-secured.entrypoints: "websecure"
+          traefik.http.routers.netdata-secured.tls: "true"
+          traefik.http.routers.netdata-secured.tls.options: "securetls@file"
+          traefik.http.routers.netdata-secured.tls.certresolver: "le"
+          traefik.http.routers.netdata-secured.middlewares: "secureHeaders@file,googleAuth@file"
+          traefik.http.services.netdata-secured.loadbalancer.server.port: "19999"
+        restart: always
+    hiemdall:
+        image: linuxserver/heimdall:latest
+        container_name: heimdall
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_WEB}/heimdall:/config"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.heimdall.rule: "Host(`admin.${DOMAIN}`)"
+          traefik.http.routers.heimdall.entrypoints: "web"
+          traefik.http.routers.heimdall.middlewares: "redirect@file"
+          traefik.http.routers.heimdall-secured.rule: "Host(`admin.${DOMAIN}`)"
+          traefik.http.routers.heimdall-secured.entrypoints: "websecure"
+          traefik.http.routers.heimdall-secured.tls: "true"
+          traefik.http.routers.heimdall-secured.tls.options: "securetls@file"
+          traefik.http.routers.heimdall-secured.tls.certresolver: "le"
+          traefik.http.routers.heimdall-secured.middlewares: "secureHeaders@file,googleAuth@file"
+          traefik.http.services.heimdall-secured.loadbalancer.server.port: "80"
+        restart: always
 networks:
   default:
     external:
