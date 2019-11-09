@@ -19,3 +19,7 @@ services:
           - "${APPDATA}/backup:/config"
           - "${APPDATA}/backup/logs:/logs"
         restart: always
+networks:
+  default:
+    external:
+      name: backup
