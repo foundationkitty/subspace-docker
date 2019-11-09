@@ -1,0 +1,21 @@
+version: "3"
+services:
+    rclone:
+        image: pfidr/rclone:latest
+        container_name: rclone
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+          SYNC_SRC: "${APPDATA}"
+          SYNC_DEST: "crypt:/current"
+          SYNC_OPTS_EVAL: "--backup-dir crypt:/backup/`date -I`"
+          CRON:" 0 6 * * *"
+          CRON_ABORT: "30 6 * * *"
+          OUTPUT_LOG: true
+          ROTATE_LOG: 60
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA}:/source" 
+          - "${APPDATA}/backup:/config"
+          - "${APPDATA}/backup/logs:/logs"
+        restart: always
