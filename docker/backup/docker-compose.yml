@@ -6,12 +6,12 @@ services:
         environment:
           PUID: "${PUID}"
           PGID: "${PGID}"
-          SYNC_SRC: "${APPDATA}"
+          SYNC_SRC: "/source"
           SYNC_DEST: "crypt:/current"
           SYNC_OPTS_EVAL: "--backup-dir crypt:/backup/`date -I`"
           CRON: " 0 6 * * *"
           CRON_ABORT: "30 6 * * *"
-          OUTPUT_LOG: "true"
+          OUTPUT_LOG: 1
           ROTATE_LOG: 60
         volumes:
           - /etc/localtime:/etc/localtime:ro
