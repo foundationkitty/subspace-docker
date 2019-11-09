@@ -9,7 +9,7 @@ services:
           SYNC_SRC: "${APPDATA}"
           SYNC_DEST: "crypt:/current"
           SYNC_OPTS_EVAL: "--backup-dir crypt:/backup/`date -I`"
-          CRON:" 0 6 * * *"
+          CRON: " 0 6 * * *"
           CRON_ABORT: "30 6 * * *"
           OUTPUT_LOG: true
           ROTATE_LOG: 60
