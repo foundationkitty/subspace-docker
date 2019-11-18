@@ -13,6 +13,7 @@ services:
           CRON_ABORT: "30 6 * * *"
           OUTPUT_LOG: 1
           ROTATE_LOG: 60
+          TZ: "${TZ}"
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - "${APPDATA}:/source" 
