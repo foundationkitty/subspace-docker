@@ -1,4 +1,5 @@
 export DOMAIN=
+export TZ=
 export PUID=
 export PGID=
 export ACME_EMAIL=
