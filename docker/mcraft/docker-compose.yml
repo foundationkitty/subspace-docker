@@ -17,6 +17,8 @@ services:
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - "${APPDATA_GAMES}/mcraft:/data"
+          - "${APPDATA_GAMES}/mcraft/config:/config"
+          - "${APPDATA_GAMES}/mcraft/mods:/mods"
         restart: always
         stdin_open: true
         tty: true
