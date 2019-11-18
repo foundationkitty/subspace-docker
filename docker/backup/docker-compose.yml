@@ -9,8 +9,8 @@ services:
           SYNC_SRC: "/source"
           SYNC_DEST: "crypt:/current"
           SYNC_OPTS_EVAL: "--backup-dir crypt:/backup/`date -I`"
-          CRON: " 0 6 * * *"
-          CRON_ABORT: "30 6 * * *"
+          CRON: "0 6 * * *"
+          CRON_ABORT: "45 6 * * *"
           OUTPUT_LOG: 1
           ROTATE_LOG: 60
         volumes:
