@@ -7,7 +7,7 @@ services:
           PUID: "${PUID}"
           PGID: "${PGID}"
           SYNC_SRC: "/source"
-          SYNC_DEST: "crypt:/"
+          SYNC_DEST: "crypt:/current"
           SYNC_OPTS_EVAL: "--backup-dir crypt:/archive/`date -I`"
           CRON: "20 14 * * *"
           CRON_ABORT: "45 14 * * *"
