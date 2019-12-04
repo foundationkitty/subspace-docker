@@ -1,0 +1,17 @@
+version: "3"
+services:
+   mcraftbot:
+        image: foundationkitty/gameservers:pm2
+        container_name: mcraftbot
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_GAMES}/mcraft/playercountbot:/pm2"
+        restart: always
+        command: /usr/local/bin/pm2-runtime /pm2/mcbot.js
+networks:
+  default:
+    external:
+      name: mcraft
