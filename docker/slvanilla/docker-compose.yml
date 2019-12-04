@@ -1,0 +1,48 @@
+version: "3"
+services:
+    vanilla1:
+        image: foundationkitty/gameservers:sl-vanilla
+        container_name: vanilla1
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+          STEAM_USERNAME: "${STEAM_USERNAME}"
+          STEAM_PASSWORD: "${STEAM_PASSWORD}"
+          SERVER_PORT: 7777
+        ports:
+          - 7777:7777
+          - 7777:7777/udp
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_GAMES}/steam/vanilla:/root/Steam"
+          - "${APPDATA_GAMES}/vanilla:/vanilla"
+          - "${APPDATA_GAMES}/vanilla/config:/root/.config/SCP Secret Laboratory"
+          - "${APPDATA_GAMES}/steam:/steamcmd
+        restart: always
+        stdin_open: true
+        tty: true
+    vanilla2:
+        image: foundationkitty/gameservers:sl-vanilla
+        container_name: vanilla2
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+          STEAM_USERNAME: "${STEAM_USERNAME}"
+          STEAM_PASSWORD: "${STEAM_PASSWORD}"
+          SERVER_PORT: 7778
+        ports:
+          - 7778:7778
+          - 7778:7778/udp
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_GAMES}/steam/vanilla:/root/Steam"
+          - "${APPDATA_GAMES}/vanilla:/vanilla"
+          - "${APPDATA_GAMES}/vanilla/config:/root/.config/SCP Secret Laboratory"
+          - "${APPDATA_GAMES}/steam:/steamcmd
+        restart: always
+        stdin_open: true
+        tty: true
+networks:
+  default:
+    external:
+      name: scp
