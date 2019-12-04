@@ -1,0 +1,16 @@
+version: "3"
+services:
+    purplemenace:
+        image: foundationkitty/gameservers:mono-complete
+        container_name: purplemenace
+        environment:
+          PUID: "${PUID}"
+          PGID: "${PGID}"
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - "${APPDATA_GAMES}/purple_menace:/menace"
+        command: /usr/bin/mono /menace/ThePurpleMenace.exe
+networks:
+  default:
+    external:
+      name: scp
