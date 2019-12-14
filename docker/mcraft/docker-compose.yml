@@ -13,7 +13,7 @@ services:
           JVM_XX_OPTS: -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=35 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled
           JVM_OPTS: -Dusing.aikars.flags=mcflags.emc.gs
         ports:
-          - 25565:25565
+          - 37201:37201
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - "${APPDATA_GAMES}/mcraft:/data"
