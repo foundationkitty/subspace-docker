@@ -97,19 +97,16 @@ services:
           traefik.http.routers.portainer-secured.middlewares: "secureHeaders@file,googleAuth@file"
           traefik.http.services.portainer-secured.loadbalancer.server.port: "9000"
         restart: always
-    filebrowser:
-        image: foundationkitty/gameservers:alpine-bash
-        container_name: filebrowser
+    tinyfilemanager:
+        image: foundationkitty/tinyfilemanager:latest
+        container_name: tinyfilemanager
         environment:
           PUID: "${PUID}"
           PGID: "${PGID}"
         volumes:
           - /etc/localtime:/etc/localtime:ro
-          - "${APPDATA_WEB}/filebrowser/filebrowser:/filebrowser"
-          - "${APPDATA_WEB}/filebrowser/logs:/logs"
-          - "${APPDATA}/:/srv"
-          - "${APPDATA_WEB}/filebrowser/.filebrowser.json:/.filebrowser.json"
-          - "${APPDATA_WEB}/filebrowser/database.db:/database.db"
+          - "${APPDATA_WEB}/tinyfilemanager:/web/file"
+          - "${APPDATA}/:/mnt"
         labels:
           traefik.enable: "true"
           traefik.http.routers.file.rule: "Host(`file.${DOMAIN}`)"
@@ -121,9 +118,8 @@ services:
           traefik.http.routers.file-secured.tls.options: "securetls@file"
           traefik.http.routers.file-secured.tls.certresolver: "le"
           traefik.http.routers.file-secured.middlewares: "secureHeaders@file,googleAuth@file"
-          traefik.http.services.file-secured.loadbalancer.server.port: "7000"
+          traefik.http.services.file-secured.loadbalancer.server.port: "8080"
         restart: always
-        command: /filebrowser
 networks:
   default:
     external:
